@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evgeniy Sit'ko — Портфолио</title>
+  <meta name="description" content="Портфолио: сайты и автоматизация." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header class="container header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">E</div>
+      <div>
+        <div class="name">Evgeniy Sit'ko</div>
+        <div class="tag">Сайты • Автоматизация • Telegram</div>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <a class="btn ghost" href="https://t.me/EvgeniySitko" target="_blank" rel="noreferrer">
+        Написать в Telegram
+      </a>
+      <button class="btn" id="themeBtn" type="button" aria-label="Переключить тему">
+        🌙 Тема
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Учусь создавать сайты и автоматизацию.</h1>
+      <p class="sub">
+        Делаю понятные, аккуратные решения: от простых лендингов до автоматизации процессов и Telegram-ботов.
+      </p>
+
+      <div class="hero-cards">
+        <div class="card">
+          <div class="card-title">Контакт</div>
+          <div class="card-text">
+            Telegram: <a href="https://t.me/EvgeniySitko" target="_blank" rel="noreferrer">@EvgeniySitko</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Фокус</div>
+          <div class="card-text">Мини-проекты, быстрые итерации, чистая структура.</div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Статус</div>
+          <div class="card-text">
+            <span id="statusText">В процессе обучения</span>
+            <span class="dot" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn primary" href="#projects">Посмотреть проекты</a>
+        <a class="btn ghost" href="#about">Обо мне</a>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="section-head">
+        <h2>Проекты</h2>
+        <div class="pill">
+          <span class="pill-dot" aria-hidden="true"></span>
+          Обновлено: <span id="updatedAt"></span>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="project">
+          <div class="project-top">
+            <div>
+              <h3>Telegram bot</h3>
+              <p class="muted">Бот для обработки запросов, уведомлений и простых сценариев.</p>
+            </div>
+            <span class="badge">MVP</span>
+          </div>
+          <ul class="list">
+            <li>Команды / меню</li>
+            <li>Логика запрос → ответ</li>
+            <li>Хранение простых данных</li>
+          </ul>
+          <button class="btn small" data-toast="Ссылка появится, когда проект будет оформлен">Подробнее</button>
+        </article>
+
+        <article class="project">
+          <div class="project-top">
+            <div>
+              <h3>Автоматизация процессов</h3>
+              <p class="muted">Скрипты и интеграции: ускоряю рутину и свожу ошибки к минимуму.</p>
+            </div>
+            <span class="badge">Work</span>
+          </div>
+          <ul class="list">
+            <li>Упрощение повторяющихся действий</li>
+            <li>Структура и логирование</li>
+            <li>Пошаговая документация</li>
+          </ul>
+          <button class="btn small" data-toast="Позже добавим кейсы и скриншоты">Подробнее</button>
+        </article>
+
+        <article class="project">
+          <div class="project-top">
+            <div>
+              <h3>Лендинг-визитка</h3>
+              <p class="muted">Этот сайт — основа, которую можно развивать: кейсы, блог, формы.</p>
+            </div>
+            <span class="badge">Live</span>
+          </div>
+          <ul class="list">
+            <li>Адаптивный дизайн</li>
+            <li>Тёмная/светлая тема</li>
+            <li>Быстрый деплой через GitHub Pages</li>
+          </ul>
+          <a class="btn small" href="#top" data-toast="Готово!">Наверх</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h2>Обо мне</h2>
+      <div class="about card">
+        <p>
+          Меня зовут <b>Evgeniy Sit'ko</b>. Учусь создавать сайты и автоматизацию.
+          Нравится подход “маленькими шагами”: сделал → проверил → улучшил.
+        </p>
+        <p class="muted">
+          Если хочешь — могу собрать простой сайт/бота под задачу и вместе довести до результата.
+        </p>
+
+        <div class="about-actions">
+          <a class="btn primary" href="https://t.me/EvgeniySitko" target="_blank" rel="noreferrer">Написать</a>
+          <button class="btn ghost" id="copyBtn" type="button">Скопировать Telegram</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="container footer">
+      <div class="muted">© <span id="year"></span> Evgeniy Sit'ko</div>
+      <div class="muted">Сделано через GitHub Pages</div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
