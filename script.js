@@ -1,5 +1,8 @@
-(function () {
+(() => {
   const root = document.documentElement;
+
+  const THEME_KEY = "theme";
+  const TELEGRAM = "@EvgeniySitko";
 
   const themeBtn = document.getElementById("themeBtn");
   const copyBtn = document.getElementById("copyBtn");
@@ -7,10 +10,8 @@
   const updatedAtEl = document.getElementById("updatedAt");
   const toastEl = document.getElementById("toast");
 
-  const TELEGRAM = "@EvgeniySitko";
-  const THEME_KEY = "theme";
-
   function showToast(text) {
+    if (!toastEl) return;
     toastEl.textContent = text;
     toastEl.classList.add("show");
     window.clearTimeout(showToast._t);
@@ -18,60 +19,43 @@
   }
 
   function setTheme(theme) {
-    if (theme === "light") root.setAttribute("data-theme", "light");
-    else root.removeAttribute("data-theme");
+    // CSS: dark theme is enabled when data-theme="dark"
+    if (theme === "dark") root.setAttribute("data-theme", "dark");
+    else root.removeAttribute("data-theme"); // light = default
     localStorage.setItem(THEME_KEY, theme);
   }
 
-  function setTheme(theme) {
-  if (theme === "dark") root.setAttribute("data-theme", "dark");
-  else root.removeAttribute("data-theme");
-  localStorage.setItem(THEME_KEY, theme);
+  function getTheme() {
+    return localStorage.getItem(THEME_KEY) || "light";
+  }
+
+  function toggleTheme() {
+    const current = root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+    const next = current === "dark" ? "light" : "dark";
+    setTheme(next);
+    showToast(next === "dark" ? "Тёмная тема" : "Светлая тема");
   }
 
   // Init
-  yearEl.textContent = String(new Date().getFullYear());
-  updatedAtEl.textContent = new Date().toLocaleDateString("ru-RU");
-  setTheme(localStorage.getItem(THEME_KEY) || "light");
+  if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+  if (updatedAtEl) updatedAtEl.textContent = new Date().toLocaleDateString("ru-RU");
+  setTheme(getTheme());
 
-  themeBtn?.addEventListener("click", toggleTheme);
+  if (themeBtn) themeBtn.addEventListener("click", toggleTheme);
 
-  copyBtn?.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(TELEGRAM);
-      showToast("Скопировано: " + TELEGRAM);
-    } catch {
-      showToast("Не получилось скопировать — выдели вручную: " + TELEGRAM);
-    }
-  });
-
-  // Buttons with data-toast
-  document.querySelectorAll("[data-toast]").forEach((el) => {
-    el.addEventListener("click", (e) => {
-      const msg = el.getAttribute("data-toast");
-      if (msg) showToast(msg);
+  if (copyBtn) {
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(TELEGRAM);
+        showToast("Скопировано: " + TELEGRAM);
+      } catch {
+        showToast("Не получилось скопировать — выдели вручную: " + TELEGRAM);
+      }
     });
-  });
-    // Super-smooth anchor scrolling (with easing)
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  function smoothScrollTo(targetY, duration = 550) {
-    const startY = window.scrollY || window.pageYOffset;
-    const diff = targetY - startY;
-    const start = performance.now();
-
-    const easeInOutCubic = (t) =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    function step(now) {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = easeInOutCubic(t);
-      window.scrollTo(0, startY + diff * eased);
-      if (t < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
   }
 
+  // Optional: smooth anchor scroll (приятнее)
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (!prefersReduced) {
     document.querySelectorAll('a[href^="#"]').forEach((a) => {
       a.addEventListener("click", (e) => {
@@ -86,7 +70,7 @@
         const y = el.getBoundingClientRect().top + window.scrollY - headerH - 18;
 
         history.pushState(null, "", href);
-        smoothScrollTo(Math.max(0, y), 650);
+        window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
       });
     });
   }
