@@ -257,3 +257,53 @@ a:hover{ text-decoration: underline; }
   .grid{ grid-template-columns: 1fr; }
   .header{ flex-direction: column; align-items:flex-start; }
 }
+
+/* --- Notion-like sticky header + smoothness --- */
+
+/* Уже даёт плавность якорям (#projects, #about) */
+html { scroll-behavior: smooth; }
+
+/* Липкая шапка */
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  /* чтобы контент не просвечивал “грязно” */
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(10px);
+
+  /* тонкий разделитель */
+  border-bottom: 1px solid var(--border);
+}
+
+/* чуть “дороже” смотрится при скролле */
+.header::after{
+  content:"";
+  position:absolute;
+  left:0; right:0; bottom:-1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--border) 80%, transparent), transparent);
+  pointer-events:none;
+}
+
+/* чтобы герой не прилипал под шапку при переходе по якорям */
+.section{ scroll-margin-top: 88px; }
+.hero{ scroll-margin-top: 88px; }
+
+/* Плавные анимации (уважаем настройку “уменьшить движения”) */
+@media (prefers-reduced-motion: no-preference){
+  .card, .project, .btn, .logo, .avatar{
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease, opacity .18s ease;
+  }
+  .card:hover, .project:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+  }
+}
+
+/* Фоллбек, если color-mix не поддерживается */
+@supports not (background: color-mix(in srgb, white 50%, black)){
+  .header{ background: rgba(247,247,248,0.86); }
+  :root[data-theme="dark"] .header{ background: rgba(15,17,21,0.72); }
+}
